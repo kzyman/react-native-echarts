@@ -1,15 +1,17 @@
 import React, { Component } from 'react';
-import { WebView, View, StyleSheet, Platform } from 'react-native';
+import {  View, StyleSheet, Platform } from 'react-native';
+import  {WebView} from "react-native-webview";
 import renderChart from './renderChart';
 import echarts from './echarts.min';
-
+//以下为新增
+const  iosPlatform=Platform.OS==="ios"?'true':'false'
 export default class App extends Component {
 
   constructor(props) {
     super(props);
     this.setNewOption = this.setNewOption.bind(this);
   }
-  
+
 
   componentWillReceiveProps(nextProps) {
     if(nextProps.option !== this.props.option) {
@@ -34,7 +36,8 @@ export default class App extends Component {
           }}
           scalesPageToFit={Platform.OS !== 'ios'}
           originWhitelist={['*']}
-          source={require('./tpl.html')}
+         //以下source有新增
+          source={iosPlatform==="true"?require('./tpl.html'):{uri:'file:///android_asset/tpl.html'}}
           onMessage={event => this.props.onPress ? this.props.onPress(JSON.parse(event.nativeEvent.data)) : null}
         />
       </View>
