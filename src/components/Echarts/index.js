@@ -13,9 +13,10 @@ export default class App extends Component {
   }
 
 
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps) {
     if(nextProps.option !== this.props.option) {
-      this.refs.chart.reload();
+      // this.refs.chart.reload();
+      this.refs.chart.injectJavaScript(renderChart(nextProps,false))
     }
   }
 
@@ -29,7 +30,7 @@ export default class App extends Component {
         <WebView
           ref="chart"
           scrollEnabled = {false}
-          injectedJavaScript = {renderChart(this.props)}
+          injectedJavaScript = {renderChart(this.props, true)}
           style={{
             height: this.props.height || 400,
             backgroundColor: this.props.backgroundColor || 'transparent'
